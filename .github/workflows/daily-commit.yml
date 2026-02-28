@@ -2,19 +2,20 @@ name: Daily Repository Update
 
 on:
   schedule:
-    # Runs daily at 09:15 UTC (change if you want)
     - cron: "15 9 * * *"
   workflow_dispatch:
+
+# ✅ ADD THIS BLOCK
+permissions:
+  contents: write
 
 jobs:
   daily-commit:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # ✅ Step name includes your email (requirement)
       - name: Update log - 21f1003659@ds.study.iitm.ac.in
         run: |
           echo "Last updated: $(date -u)" >> daily-log.txt
@@ -24,5 +25,5 @@ jobs:
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add daily-log.txt
-          git commit -m "chore: automated daily update" || echo "No changes to commit"
+          git commit -m "chore: automated daily update" || echo "No changes"
           git push
